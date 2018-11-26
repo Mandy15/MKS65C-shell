@@ -5,14 +5,14 @@
 #include <errno.h>
 #include "shell.h"
 
-char ** read_line( char * line ) {
-  char ** cmds = (char **) malloc(10 * sizeof(char *));
-  char * p = line;
-  int i;
-  for (i = 0; p; i++ ) {
-    cmds[i] = strsep( &p, " " );
-    printf("[%s]\n", cmds[i]);
+int read_line(char * str){
+  printf(">>> ");
+  char *buf;
+  fgets(buf, 15, stdin);
+  if(strlen(buf) != 0){
+    str = buf;
+    return 0;
+  }else{
+    return 1;
   }
-  cmds[i] = NULL;
-  return cmds;
 }
