@@ -29,6 +29,8 @@ int main(){
     print_dir();
     input = read_line();
     exec_num = parse_args(input, parsed, parsed_pipe);
+    // printf("rparsed: %s\n",*parsed);
+    // printf("rparsed_pipe: %s\n",*parsed_pipe);
     exec_args(exec_num, parsed, parsed_pipe);
   }
   return 0;

@@ -6,7 +6,7 @@
 #include "shell.h"
 
 char * read_line(){
-  printf(">>> ");
+  printf("$ ");
   char *buf = malloc(64*sizeof(char));
   fgets(buf, 64, stdin);
   if(strlen(buf) != 0){
