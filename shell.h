@@ -10,6 +10,8 @@ int parse_pipe(char * input, char ** parsed_pipe);
 
 int parse_args(char * input, char ** parsed, char ** parsed_pipe);
 
+int exec_builtin(char ** parsed);
+
 void exec_cmd(char ** parsed);
 
 void exec_pipe(char ** parsed_pipe);

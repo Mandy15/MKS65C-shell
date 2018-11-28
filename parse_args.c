@@ -11,9 +11,7 @@ void parse_space(char * input, char ** parsed){
   for(i = 0; p; i++ ){
     parsed[i] = strsep( &p, " " );
   }
-  // parsed[i-1] = strsep( &parsed[i-1], "NULL" );
   parsed[i] = NULL;
-  // printf("parsed[0]: %s", parsed[1]);
 }
 
 int parse_pipe(char * input, char ** parsed_pipe){
@@ -21,6 +19,7 @@ int parse_pipe(char * input, char ** parsed_pipe){
 }
 
 int parse_args(char * input, char ** parsed, char ** parsed_pipe){
+  int piped = 0;
   parse_space(input, parsed);
-  return 1;
+  return 0 + piped;
 }

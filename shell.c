@@ -8,7 +8,9 @@
 
 void start(){
   clear();
-  printf("----------------------------Welcome to Mandy's_Shell---------------------------\n");
+  printf("\n\n\n\n\n\n\n\n\n----------------------------Welcome to Mandy's_Shell---------------------------\n");
+  sleep(1);
+  clear();
 }
 
 void print_dir(){
@@ -25,13 +27,9 @@ int main(){
   start();
   while(1){
     print_dir();
-    // if(read_line(input)){
-    //   continue;
-    // }
     input = read_line();
     exec_num = parse_args(input, parsed, parsed_pipe);
     exec_args(exec_num, parsed, parsed_pipe);
-    // printf("---------------------------Leaving Mandy's_Shell---------------------------\n");
   }
   return 0;
 }
