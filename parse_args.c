@@ -14,12 +14,30 @@ void parse_space(char * input, char ** parsed){
   parsed[i] = NULL;
 }
 
-int parse_pipe(char * input, char ** parsed_pipe){
-  return 0;
+int parse_pipe(char * input, char ** pipes){
+  int i;
+  for (i = 0; i < 2; i++) {
+    pipes[i] = strsep(&input, "|");
+    if(pipes[i] == NULL) {
+      break;
+    }
+  }
+  if(pipes[1] == NULL) {
+    return 0;
+  }else{
+    return 1;
+  }
 }
 
 int parse_args(char * input, char ** parsed, char ** parsed_pipe){
+  char * pipes[2];
   int piped = 0;
-  parse_space(input, parsed);
+  piped = parse_pipe(input, pipes);
+  if(piped){
+    parse_space(pipes[0], parsed);
+    parse_space(pipes[1], parsed_pipe);
+  }else{
+    parse_space(input, parsed);
+  }
   return 0 + piped;
 }
