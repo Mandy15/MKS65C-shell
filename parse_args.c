@@ -5,20 +5,22 @@
 #include <errno.h>
 #include "shell.h"
 
-int parse_args(){
-    // char *s1 = line;
-    // char ** cmds = (char **) malloc(15 * sizeof(char *));
-    // char * p = s1;
-    // printf("[%c]\n", p[4]);
-    // printf("[%c]\n", p[5]);
-    // int i;
-    // for(i = 0; strncmp(&p[i], "\n", 15) == 0; i++ ){
-    //   cmds[i] = strsep( &p, " " );
-    // }
-    // printf("[%s]\n", cmds[0]);
-    // printf("[%s]\n", cmds[1]);
-    // char ** args = cmds;
-    // execvp(args[0], args);
+void parse_space(char * input, char ** parsed){
+  char * p = input;
+  int i;
+  for(i = 0; p; i++ ){
+    parsed[i] = strsep( &p, " " );
+  }
+  // parsed[i-1] = strsep( &parsed[i-1], "NULL" );
+  parsed[i] = NULL;
+  // printf("parsed[0]: %s", parsed[1]);
+}
 
+int parse_pipe(char * input, char ** parsed_pipe){
   return 0;
+}
+
+int parse_args(char * input, char ** parsed, char ** parsed_pipe){
+  parse_space(input, parsed);
+  return 1;
 }

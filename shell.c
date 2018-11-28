@@ -18,17 +18,20 @@ void print_dir(){
 }
 
 int main(){
-  char input[15];
+  char *input = malloc(64*sizeof(char));
+  char **parsed = malloc(64*sizeof(char*));
+  char **parsed_pipe = malloc(64*sizeof(char*));
   int exec_num = 0;
   start();
   while(1){
     print_dir();
-    if(read_line(input)){
-      continue;
-    }
-    exec_num = parse_args(input);
-    exec_args(exec_num);
-    printf("---------------------------Leaving Mandy's_Shell---------------------------\n");
+    // if(read_line(input)){
+    //   continue;
+    // }
+    input = read_line();
+    exec_num = parse_args(input, parsed, parsed_pipe);
+    exec_args(exec_num, parsed, parsed_pipe);
+    // printf("---------------------------Leaving Mandy's_Shell---------------------------\n");
   }
   return 0;
 }

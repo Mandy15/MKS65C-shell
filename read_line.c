@@ -5,14 +5,17 @@
 #include <errno.h>
 #include "shell.h"
 
-int read_line(char * str){
+char * read_line(){
   printf(">>> ");
-  char *buf;
-  fgets(buf, 15, stdin);
+  char *buf = malloc(64*sizeof(char));
+  fgets(buf, 64, stdin);
   if(strlen(buf) != 0){
-    str = buf;
-    return 0;
+    int len = strlen(buf);
+    if(buf[len-1] == '\n'){
+      buf[len-1] = '\0';
+    }
+    return buf;
   }else{
-    return 1;
+    return NULL;
   }
 }

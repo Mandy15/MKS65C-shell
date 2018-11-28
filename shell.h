@@ -1,5 +1,17 @@
-int read_line( );
+void start();
 
-int parse_args();
+void print_dir();
 
-int exec_args(int num);
+char * read_line();
+
+void parse_space(char * input, char ** parsed);
+
+int parse_pipe(char * input, char ** parsed_pipe);
+
+int parse_args(char * input, char ** parsed, char ** parsed_pipe);
+
+void exec_cmd(char ** parsed);
+
+void exec_pipe(char ** parsed_pipe);
+
+void exec_args(int exec_num, char ** parsed, char ** parsed_pipe);
