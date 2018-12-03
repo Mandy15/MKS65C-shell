@@ -5,6 +5,7 @@
 #include <errno.h>
 #include "shell.h"
 
+// No args. Reads input from user and returns it (or NULL).
 char * read_line(){
   printf("$ ");
   char *buf = malloc(64*sizeof(char));
@@ -19,3 +20,4 @@ char * read_line(){
     return NULL;
   }
 }
+//

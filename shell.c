@@ -10,6 +10,7 @@
 #include "shell.h"
 #define clear() printf("\033[H\033[J")
 
+// No args/returns. Clears terminal for shell.
 void start(){
   clear();
   printf("\n\n\n\n\n\n\n\n\n----------------------------Welcome to Mandy's_Shell---------------------------\n");
@@ -17,12 +18,14 @@ void start(){
   clear();
 }
 
+// No args/returns. Prints the current directory to mimic bash shell.
 void print_dir(){
   char cwd[1024];
   getcwd(cwd, sizeof(cwd));
   printf("\n%s", cwd);
 }
 
+// No args. Runs shell. Returns 0.
 int main(){
   char *input = malloc(64*sizeof(char));
   char **parsed = malloc(64*sizeof(char*));
@@ -32,11 +35,9 @@ int main(){
   while(1){
     print_dir();
     input = read_line();
-    // if(parse_semi(input)){
-    //   ;
-    // }
     exec_num = parse_args(input, parsed, parsed_pipe);
     exec_args(exec_num, parsed, parsed_pipe);
   }
   return 0;
 }
+//
