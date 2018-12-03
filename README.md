@@ -15,7 +15,7 @@ Can exec commands, cd, exit, simple redirectiion, and simple pipes
 Separate multiple commands on one line with ;
 
 ## Bugs:
-Only single commands can be parsed with ;. Even if first command is executed, the shell may get exited and the second command won't run.
+Only single commands can be parsed with ;. Even if the commands are executed, the shell may be exited. Or, only first command is executed.
 
 ## Restrictions:
 All items on the command line are to be separated by a single space
