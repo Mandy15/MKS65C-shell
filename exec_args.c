@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include "shell.h"
 #define clear() printf("\033[H\033[J")
@@ -35,43 +39,43 @@ void exec_cmd(char ** parsed){
 }
 
 void exec_pipe(char ** parsed, char ** parsed_pipe){
-  int pipefd[2];
-  pid_t p1, p2;
-  if(pipe(pipefd) < 0) {
-    printf("\nPipe could not be initialized");
-    return;
+  FILE *pipein_fp, *pipeout_fp;
+  char readbuf[80];
+  if (( pipein_fp = popen(parsed[0], "r")) == NULL){
+    perror("popen");
+    exit(1);
   }
-  p1 = fork();
-  if(p1 < 0) {
-    printf("\nCould not fork");
-    return;
+  if (( pipeout_fp = popen(parsed_pipe[0], "w")) == NULL){
+    perror("popen");
+    exit(1);
   }
-  if(p1 == 0) {
-    close(pipefd[0]);
-    dup2(pipefd[1], STDOUT_FILENO);
-    close(pipefd[1]);
-    if(execvp(parsed[0], parsed) < 0) {
-      printf("\nCould not execute command 1..");
-      exit(0);
+  while(fgets(readbuf, 80, pipein_fp)){
+    fputs(readbuf, pipeout_fp);
+  }
+  pclose(pipein_fp);
+  pclose(pipeout_fp);
+}
+
+void exec_redirect(char ** parsed, char ** parsed_pipe){
+  printf("worked\n");
+  
+  pid_t pid = fork();
+  if(pid == -1){
+    printf("\nForking failed.\n");
+  }else if(pid == 0){
+    int in, out;
+    in = open(parsed[0], O_RDONLY);
+    out = open(parsed_pipe[0], O_WRONLY | O_TRUNC | O_CREAT);
+    dup2(in, 0);
+    dup2(out, 1);
+    close(in);
+    close(out);
+    if(execvp(parsed[0], parsed) < 0){
+      printf("\nCommand could not be executed.\n");
     }
+    exit(0);
   }else{
-    p2 = fork();
-    if(p2 < 0) {
-      printf("\nCould not fork");
-      return;
-    }
-    if(p2 == 0) {
-      close(pipefd[1]);
-      dup2(pipefd[0], STDIN_FILENO);
-      close(pipefd[0]);
-      if(execvp(parsed_pipe[0], parsed_pipe) < 0) {
-        printf("\nCould not execute command 2..");
-        exit(0);
-      }
-    }else{
-      wait(NULL);
-      wait(NULL);
-    }
+    wait(NULL);
   }
 }
 
@@ -84,5 +88,8 @@ void exec_args(int exec_num, char ** parsed, char ** parsed_pipe){
   }
   if(exec_num == 1){
     exec_pipe(parsed, parsed_pipe);
+  }
+  if(exec_num == 2){
+    exec_redirect(parsed, parsed_pipe);
   }
 }

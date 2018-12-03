@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include "shell.h"
 
@@ -16,19 +20,31 @@ void parse_space(char * input, char ** parsed){
 
 int parse_pipe(char * input, char ** pipes){
   char *i = malloc(64*sizeof(char));
-  // char *i = input;
   strcpy(i,input);
   char **p = malloc(64*sizeof(char*));
   parse_space(i, p);
-  // printf("p[0]: %s\n",p[0]);
-  // printf("p[1]: %s\n",p[1]);
-  // printf("p[2]: %s\n",p[2]);
   if(p[1] && strcmp(p[1], "|") == 0){
     pipes[0] = p[0];
     pipes[1] = p[2];
-    // printf("pipes[0]: %s\n",pipes[0]);
-    // printf("pipes[1]: %s\n",pipes[1]);
     return 1;
+  }else{
+    return 0;
+  }
+}
+
+int parse_redirect(char * input, char ** pipes){
+  char *i = malloc(64*sizeof(char));
+  strcpy(i,input);
+  char **p = malloc(64*sizeof(char*));
+  parse_space(i, p);
+  if(p[1] && strcmp(p[1], ">") == 0){
+    pipes[0] = p[0];
+    pipes[1] = p[2];
+    return 2;
+  }else if (p[1] && strcmp(p[1], "<") == 0){
+    pipes[0] = p[2];
+    pipes[1] = p[0];
+    return 2;
   }else{
     return 0;
   }
@@ -41,11 +57,14 @@ int parse_args(char * input, char ** parsed, char ** parsed_pipe){
   if(piped){
     parsed[0] = pipes[0];
     parsed_pipe[0] = pipes[1];
-    // printf("parsed: %s\n",*parsed);
-    // printf("parsed_pipe: %s\n",*parsed_pipe);
   }else{
-    parse_space(input, parsed);
+    piped = parse_redirect(input, pipes);
+    if(piped){
+      parsed[0] = pipes[0];
+      parsed_pipe[0] = pipes[1];
+    }else{
+      parse_space(input, parsed);
+    }
   }
-  // printf("piped: %d\n", piped);
   return 0 + piped;
 }

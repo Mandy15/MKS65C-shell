@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <errno.h>
 #include "shell.h"
 #define clear() printf("\033[H\033[J")
@@ -28,9 +32,10 @@ int main(){
   while(1){
     print_dir();
     input = read_line();
+    // if(parse_semi(input)){
+    //   ;
+    // }
     exec_num = parse_args(input, parsed, parsed_pipe);
-    // printf("rparsed: %s\n",*parsed);
-    // printf("rparsed_pipe: %s\n",*parsed_pipe);
     exec_args(exec_num, parsed, parsed_pipe);
   }
   return 0;
