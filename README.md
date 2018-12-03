@@ -1,11 +1,24 @@
 # MKS65C-shell
 
 ## Shell Features:
+Reads a line at a time
+
+Parsees the line to separate the command from its arguments
+
+Then forks and execs the command
+
+The parent process waits until the exec'd program exits and then it reads the next command.
+
+Can exec commands, cd, exit, simple redirectiion, and simple pipes
 
 ### Attempted:
+Separate multiple commands on one line with ;
 
 ## Bugs/Restrictions:
 All items on the command line are to be separated by a single space
+
+Redirection is limited to a single < or > 
+
 Piping (|) limited to a single pipe
 
 ## Function Headers:
