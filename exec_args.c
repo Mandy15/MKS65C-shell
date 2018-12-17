@@ -14,10 +14,10 @@
 // Returns 0 if no built-in commands or exited shell. Returns 1 for cd.
 int exec_builtin(char ** parsed){
   if(strcmp(parsed[0], "exit") == 0){
-    clear();
+    // clear();
     printf("\n\n\n\n\n\n\n\n\n-----------------------------Leaving Mandy's_Shell------------------------------\n\n");
     sleep(1);
-    clear();
+    // clear();
     exit(0);
   }else if(strcmp(parsed[0], "cd") == 0){
     chdir(parsed[1]);

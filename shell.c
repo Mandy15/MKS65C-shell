@@ -12,10 +12,10 @@
 
 // No args/returns. Clears terminal for shell.
 void start(){
-  clear();
+  // clear();
   printf("\n\n\n\n\n\n\n\n\n----------------------------Welcome to Mandy's_Shell---------------------------\n");
   sleep(1);
-  clear();
+  // clear();
 }
 
 // No args/returns. Prints the current directory to mimic bash shell.
